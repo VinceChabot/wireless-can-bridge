@@ -1,9 +1,22 @@
-# editors
+﻿# editors
 *.swp
 *~
+.vscode/.browse.*
 
 # build
 /build*/
+
+# local logs and serial captures
+*.log
+*.pcap
+
+# Claude Code local settings (CLAUDE.md is shared)
+.claude/settings.local.json
+
+# OS files
+Thumbs.db
+desktop.ini
+.DS_Store
 
 # third-party clone, not part of this project
 /external/
