@@ -77,6 +77,13 @@ event word; ISRs only post events. Keep it that way.
 - SPI stays at 4 MHz. 8 MHz only made `can_send` ~10 % faster (the time is bus waiting) and the
   user saw corrupted IDs at 6 MHz on the dev kit. nRF54L15 `spi00` can do 32 MHz, the other SPI
   instances only 8 MHz.
+- **No CAN auto-baud on the MCP2515** (tried, reverted; the bitrate is fixed at 500 kbit/s in
+  `can_init_interface`). Zephyr's driver sets RXB0/1CTRL `RXM=11` (receive any message), so a
+  listen-only controller at a wrong bitrate reports garbage as frames (~4x more than the real
+  traffic, error counters stay 0). Counting frames or distinct ids cannot tell it from the real
+  rate, and after scanning on a loaded bus mode changes started failing with `-EIO`. The only
+  reliable check is a trial in normal mode (error counter stays 0), which sends error flags on the
+  bus. A controller with a real bus-monitoring mode (MCP2518FD, TCAN4550) is needed.
 - The build uses `-std=c99`: no `typeof`, declare named structs.
 - `bridge_now_us()` wraps after ~71 min; always compare with `bridge_us_diff()`.
 

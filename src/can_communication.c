@@ -240,7 +240,12 @@ void can_tx_thread(void *arg1, void *unused2, void *unused3)
 		ret = can_send(can_dev, &bf.frame, CAN_TX_BUFFER_TIMEOUT, tx_irq_callback,
 			       "can_tx_thread_msg");
 		t_send = bridge_now_us() - t_send;
-		can_tx_send_us_total += t_send;
+		if (ret == 0) {
+			/* The average is over successful sends only (it divides by can_tx_frames);
+			 * failed ones wait out the timeout and would inflate it.
+			 */
+			can_tx_send_us_total += t_send;
+		}
 		if (t_send > can_tx_send_us_max) {
 			can_tx_send_us_max = t_send;
 		}
