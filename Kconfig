@@ -5,6 +5,45 @@
 
 mainmenu "Controller Area Network sample application"
 
+config BRIDGE_PLAYOUT_DELAY_US
+	int "Delay added to every bridged frame, in microseconds"
+	default 20000
+	range 0 200000
+	help
+	  Frames are timestamped on the source bus. The receiving board sends each one
+	  on its bus this long after it was received on the source bus, which keeps
+	  the original spacing between frames. It must cover the worst delay the
+	  radio link adds (a few lost cycles at 3 ms each). Frames that arrive
+	  later than that are sent immediately and counted as late.
+
+config BRIDGE_AUTO_PAIR_ON_BOOT
+	bool "Start pairing automatically at boot (bench testing)"
+
+config BRIDGE_COUNTER_CHECK
+	bool "Check the test message counter for lost frames (bench testing)"
+
+config BRIDGE_COUNTER_ID
+	hex "29-bit CAN id of the counter test message"
+	depends on BRIDGE_COUNTER_CHECK
+	default 0x14FF009E
+
+config BRIDGE_SYNTHETIC_TRAFFIC
+	bool "Inject synthetic CAN frames into the link (bench testing)"
+
+config BRIDGE_SYNTHETIC_RATE
+	int "Synthetic frames per second, in each direction"
+	depends on BRIDGE_SYNTHETIC_TRAFFIC
+	default 50
+	range 1 20000
+
+config BRIDGE_SYNTHETIC_ISOLATE
+	bool "Radio-only test: ignore the CAN bus and do not transmit on it"
+	depends on BRIDGE_SYNTHETIC_TRAFFIC
+	help
+	  Frames received from the CAN bus are discarded and frames arriving from the
+	  radio are counted as sent without touching the bus, so the link can be
+	  stress tested without loading either CAN bus.
+
 config LOOPBACK_MODE
 	bool "Loopback LOOPBACK_MODE"
 	default y

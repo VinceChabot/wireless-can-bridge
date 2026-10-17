@@ -1,0 +1,27 @@
+/ {
+    chosen {
+        zephyr_canbus = &mcp2515;
+    };
+};
+
+&uart21 {
+    status = "disabled";
+};
+
+&i2c22 {
+    status = "disabled";
+};
+
+&spi00 {
+    status = "okay";
+    cs-gpios = <&gpio2 7 GPIO_ACTIVE_LOW>;
+
+    mcp2515: mcp2515@0 {
+        compatible = "microchip,mcp2515";
+        reg = <0>;
+        spi-max-frequency = <4000000>;
+        int-gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
+        osc-freq = <16000000>;
+        status = "okay";
+    };
+};

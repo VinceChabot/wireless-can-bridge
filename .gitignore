@@ -4,3 +4,6 @@
 
 # build
 /build*/
+
+# third-party clone, not part of this project
+/external/

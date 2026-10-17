@@ -1,0 +1,22 @@
+{
+    "nrf-connect.boardRoots": [
+        "${workspaceFolder}"
+    ],
+    "files.associations": {
+        "byteorder.h": "c",
+        "gpio.h": "c",
+        "can.h": "c",
+        "printk.h": "c",
+        "can_communication.h": "c",
+        "device.h": "c",
+        "kernel.h": "c",
+        "message_queues.h": "c",
+        "log.h": "c",
+        "compare": "c",
+        "stdio.h": "c",
+        "esb_communication.h": "c",
+        "nrf.h": "c",
+        "nrf_clock_control.h": "c",
+        "nrf_clock.h": "c"
+    }
+}
